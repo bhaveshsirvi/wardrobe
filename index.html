@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wardrobe Upload</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .phone-display {
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .file-input-label:hover {
+            background: #f0f1ff;
+            border-color: #764ba2;
+            color: #764ba2;
+        }
+
+        .file-input-label svg {
+            margin-right: 10px;
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 0, 0, 1);
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .upload-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(12, 84, 96, 0.3);
+            border-radius: 50%;
+            border-top-color: #0c5460;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .file-count {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .error-container {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .error-container h2 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <h1>🎨 Upload to Wardrobe</h1>
+        <p class="subtitle">Select your clothing images to add to your wardrobe</p>
+
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="phoneDisplay">Phone Number</label>
+                <div class="phone-display" id="phoneDisplay">Loading...</div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Images</label>
+                <div class="file-input-wrapper">
+                    <input 
+                        type="file" 
+                        id="imageInput" 
+                        accept="image/*" 
+                        multiple
+                    >
+                    <label for="imageInput" class="file-input-label">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                        Choose Images
+                    </label>
+                </div>
+                <div class="file-count" id="fileCount">No images selected</div>
+            </div>
+
+            <div id="previewContainer" class="preview-container"></div>
+
+            <button type="submit" class="upload-btn" id="uploadBtn">
+                Upload to Wardrobe
+            </button>
+        </form>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        // Hardcoded webhook URL - change this to your n8n webhook URL
+        const WEBHOOK_URL = 'https://naryan1729.app.n8n.cloud/webhook/upload';
+
+        const imageInput = document.getElementById('imageInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const statusDiv = document.getElementById('status');
+        const fileCount = document.getElementById('fileCount');
+        const phoneDisplay = document.getElementById('phoneDisplay');
+        const mainContainer = document.getElementById('mainContainer');
+
+        let selectedFiles = [];
+        let userPhoneNumber = null;
+
+        // Get phone number from UTM parameters
+        function getPhoneFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Try different parameter names
+            const phone = urlParams.get('phone') || 
+                         urlParams.get('phoneNumber') || 
+                         urlParams.get('mobile') || 
+                         urlParams.get('utm_phone') ||
+                         urlParams.get('number');
+            
+            return phone;
+        }
+
+        // Initialize - get phone number from URL
+        function initialize() {
+            userPhoneNumber = getPhoneFromURL();
+            
+            if (!userPhoneNumber) {
+                showError('Phone number not found in URL parameters. Please access this page with a valid phone number.');
+                return;
+            }
+            
+            phoneDisplay.textContent = userPhoneNumber;
+            console.log('Phone number loaded:', userPhoneNumber);
+        }
+
+        function showError(message) {
+            mainContainer.innerHTML = `
+                <div class="error-container">
+                    <h2>⚠️ Error</h2>
+                    <p>${message}</p>
+                    <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                        Example URL: ?phone=+1234567890
+                    </p>
+                </div>
+            `;
+        }
+
+        imageInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    selectedFiles.push(file);
+                    displayPreview(file);
+                }
+            });
+            updateFileCount();
+        }
+
+        function displayPreview(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                previewItem.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview">
+                    <button type="button" class="remove-btn" onclick="removeImage('${file.name}')">×</button>
+                `;
+                previewContainer.appendChild(previewItem);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeImage(fileName) {
+            selectedFiles = selectedFiles.filter(f => f.name !== fileName);
+            updatePreviewContainer();
+            updateFileCount();
+        }
+
+        function updatePreviewContainer() {
+            previewContainer.innerHTML = '';
+            selectedFiles.forEach(file => displayPreview(file));
+        }
+
+        function updateFileCount() {
+            const count = selectedFiles.length;
+            fileCount.textContent = count === 0 ? 'No images selected' : 
+                count === 1 ? '1 image selected' : `${count} images selected`;
+        }
+
+        async function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!userPhoneNumber) {
+                showStatus('Phone number is missing', 'error');
+                return;
+            }
+
+            if (selectedFiles.length === 0) {
+                showStatus('Please select at least one image', 'error');
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            showStatus(`Processing ${selectedFiles.length} image(s)...`, 'loading');
+
+            try {
+                // Convert all files to base64
+                const imagePromises = selectedFiles.map(async (file) => {
+                    const base64Data = await fileToBase64(file);
+                    return {
+                        fileName: file.name,
+                        fileType: file.type,
+                        fileSize: file.size,
+                        imageData: base64Data
+                    };
+                });
+
+                const images = await Promise.all(imagePromises);
+
+                // Prepare the payload
+                const payload = {
+                    phoneNumber: userPhoneNumber,
+                    images: images
+                };
+
+                console.log('Sending payload:', {
+                    phoneNumber: payload.phoneNumber,
+                    imageCount: images.length
+                });
+
+                // Send to n8n webhook
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Response:', result);
+
+                showStatus(`✓ Successfully uploaded ${selectedFiles.length} image(s) to your wardrobe!`, 'success');
+                
+                // Clear form
+                selectedFiles = [];
+                previewContainer.innerHTML = '';
+                imageInput.value = '';
+                updateFileCount();
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                showStatus(`✗ Upload failed: ${error.message}`, 'error');
+            } finally {
+                uploadBtn.disabled = false;
+            }
+        });
+
+        function showStatus(message, type) {
+            statusDiv.className = `status ${type}`;
+            if (type === 'loading') {
+                statusDiv.innerHTML = `<span class="loading-spinner"></span>${message}`;
+            } else {
+                statusDiv.textContent = message;
+            }
+        }
+
+        // Make removeImage function globally accessible
+        window.removeImage = removeImage;
+
+        // Initialize on page load
+        initialize();
+    </script>
+</body>
+</html>
