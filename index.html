@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wardrobe Upload</title>
+    <title>Thredora - Upload to Wardrobe</title>
+    <meta name="description" content="Upload your clothing to your elegant digital wardrobe">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,112 +16,113 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Libre Baskerville', serif;
+            background-color: #f8f6f3;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .phone-display {
-            padding: 12px 15px;
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
+        /* Logo */
+        .logo-container {
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border: 2px dashed #667eea;
-            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            height: 5rem;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* Heading */
+        .heading {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: #000;
+            margin-bottom: 2rem;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .upload-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .upload-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: #6A4EB6;
+            color: white;
+            padding: 1.75rem 3rem;
+            border-radius: 9999px;
+            font-size: 1.25rem;
             cursor: pointer;
-            transition: all 0.3s;
-            color: #667eea;
-            font-weight: 600;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+            font-family: 'Libre Baskerville', serif;
         }
 
-        .file-input-label:hover {
-            background: #f0f1ff;
-            border-color: #764ba2;
-            color: #764ba2;
+        .upload-button:hover {
+            background-color: #5a3fa0;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
 
-        .file-input-label svg {
-            margin-right: 10px;
+        .upload-icon {
+            width: 1.5rem;
+            height: 1.5rem;
         }
 
+        .file-input {
+            display: none;
+        }
+
+        .file-count {
+            text-align: center;
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 0.75rem;
+        }
+
+        /* Preview Grid */
         .preview-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
         }
 
         .preview-item {
             position: relative;
             aspect-ratio: 1;
-            border-radius: 10px;
+            background-color: white;
+            border-radius: 0.5rem;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e8e4dc;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .preview-item:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         .preview-item img {
@@ -128,75 +133,102 @@
 
         .remove-btn {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255, 0, 0, 0.8);
-            color: white;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: white;
+            color: #721c24;
             border: none;
             border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            width: 2rem;
+            height: 2rem;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            font-weight: 700;
         }
 
         .remove-btn:hover {
-            background: rgba(255, 0, 0, 1);
+            background-color: #721c24;
+            color: white;
+            transform: scale(1.1);
         }
 
-        .upload-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* Submit Button */
+        .submit-container {
+            max-width: 500px;
+            margin: 2rem auto 0;
+            text-align: center;
+        }
+
+        .submit-button {
+            display: inline-block;
+            padding: 1.25rem 2.5rem;
+            background-color: #6A4EB6;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 9999px;
+            font-size: 1.125rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-family: 'Libre Baskerville', serif;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
         }
 
-        .upload-btn:hover {
+        .submit-button.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .submit-button:hover:not(:disabled) {
+            background-color: #5a3fa0;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .upload-btn:disabled {
-            background: #ccc;
+        .submit-button:disabled {
+            background-color: #d4cfc4;
             cursor: not-allowed;
             transform: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
+        /* Status Messages */
         .status {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+            padding: 1.25rem 1.5rem;
+            border-radius: 0.5rem;
             display: none;
-            font-size: 14px;
+            font-size: 0.95rem;
+            text-align: center;
+            line-height: 1.6;
         }
 
         .status.success {
-            background: #d4edda;
+            background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
             display: block;
         }
 
         .status.error {
-            background: #f8d7da;
+            background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
             display: block;
         }
 
         .status.loading {
-            background: #d1ecf1;
+            background-color: #d1ecf1;
             color: #0c5460;
             border: 1px solid #bee5eb;
             display: block;
@@ -204,80 +236,137 @@
 
         .loading-spinner {
             display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 3px solid rgba(12, 84, 96, 0.3);
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(12, 84, 96, 0.3);
             border-radius: 50%;
             border-top-color: #0c5460;
             animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
+            margin-right: 0.5rem;
+            vertical-align: middle;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        .file-count {
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
+        /* Error Container */
         .error-container {
-            background: #f8d7da;
+            max-width: 600px;
+            margin: 3rem auto;
+            background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 2rem;
+            border-radius: 0.5rem;
             text-align: center;
         }
 
         .error-container h2 {
-            margin-bottom: 10px;
-            font-size: 20px;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .error-container p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) {
+            .container {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .logo {
+                height: 6rem;
+            }
+
+            .heading {
+                font-size: 3rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .upload-button {
+                padding: 2rem 3.5rem;
+                font-size: 1.5rem;
+                gap: 1rem;
+            }
+
+            .upload-icon {
+                width: 2rem;
+                height: 2rem;
+            }
+
+            .preview-container {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+
+            .submit-button {
+                font-size: 1.25rem;
+                padding: 1.5rem 3rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1024px) {
+            .logo {
+                height: 7rem;
+            }
+
+            .heading {
+                font-size: 3.75rem;
+            }
+
+            .preview-container {
+                grid-template-columns: repeat(6, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <h1>🎨 Upload to Wardrobe</h1>
-        <p class="subtitle">Select your clothing images to add to your wardrobe</p>
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="https://customer-assets.emergentagent.com/job_dress-effortless/artifacts/p6w98td7_Header%20%281%29.png" alt="Thredora" class="logo">
+        </div>
 
-        <form id="uploadForm">
-            <div class="form-group">
-                <label for="phoneDisplay">Phone Number</label>
-                <div class="phone-display" id="phoneDisplay">Loading...</div>
+        <!-- Heading -->
+        <h1 class="heading">Wardrobe</h1>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-container">
+                <label for="imageInput" class="upload-button">
+                    <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Upload Images
+                </label>
+                <input 
+                    type="file" 
+                    id="imageInput" 
+                    accept="image/*" 
+                    multiple
+                    class="file-input"
+                >
             </div>
+            <div class="file-count" id="fileCount">No images selected</div>
+        </div>
 
-            <div class="form-group">
-                <label>Select Images</label>
-                <div class="file-input-wrapper">
-                    <input 
-                        type="file" 
-                        id="imageInput" 
-                        accept="image/*" 
-                        multiple
-                    >
-                    <label for="imageInput" class="file-input-label">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5"/>
-                            <polyline points="21 15 16 10 5 21"/>
-                        </svg>
-                        Choose Images
-                    </label>
-                </div>
-                <div class="file-count" id="fileCount">No images selected</div>
-            </div>
+        <!-- Preview Grid -->
+        <div id="previewContainer" class="preview-container"></div>
 
-            <div id="previewContainer" class="preview-container"></div>
-
-            <button type="submit" class="upload-btn" id="uploadBtn">
-                Upload to Wardrobe
+        <!-- Submit Button -->
+        <div class="submit-container">
+            <button type="button" class="submit-button" id="uploadBtn">
+                Confirm Upload
             </button>
-        </form>
+        </div>
 
+        <!-- Status Messages -->
         <div id="status" class="status"></div>
     </div>
 
@@ -287,11 +376,9 @@
 
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('previewContainer');
-        const uploadForm = document.getElementById('uploadForm');
         const uploadBtn = document.getElementById('uploadBtn');
         const statusDiv = document.getElementById('status');
         const fileCount = document.getElementById('fileCount');
-        const phoneDisplay = document.getElementById('phoneDisplay');
         const mainContainer = document.getElementById('mainContainer');
 
         let selectedFiles = [];
@@ -320,26 +407,21 @@
                 return;
             }
             
-            phoneDisplay.textContent = userPhoneNumber;
             console.log('Phone number loaded:', userPhoneNumber);
         }
 
         function showError(message) {
-            mainContainer.innerHTML = `
-                <div class="error-container">
-                    <h2>⚠️ Error</h2>
-                    <p>${message}</p>
-                    <p style="margin-top: 15px; font-size: 12px; color: #666;">
-                        Example URL: ?phone=+1234567890
-                    </p>
-                </div>
-            `;
+            mainContainer.innerHTML = '';
         }
 
         imageInput.addEventListener('change', handleFileSelect);
 
         function handleFileSelect(e) {
             const files = Array.from(e.target.files);
+            
+            if (files.length === 0) return;
+            
+            // Add files to selectedFiles array
             files.forEach(file => {
                 if (file.type.startsWith('image/')) {
                     selectedFiles.push(file);
@@ -347,6 +429,7 @@
                 }
             });
             updateFileCount();
+            toggleUploadButton();
         }
 
         function displayPreview(file) {
@@ -367,6 +450,7 @@
             selectedFiles = selectedFiles.filter(f => f.name !== fileName);
             updatePreviewContainer();
             updateFileCount();
+            toggleUploadButton();
         }
 
         function updatePreviewContainer() {
@@ -380,6 +464,23 @@
                 count === 1 ? '1 image selected' : `${count} images selected`;
         }
 
+        function toggleUploadButton() {
+            if (selectedFiles.length > 0) {
+                uploadBtn.classList.add('visible');
+            } else {
+                uploadBtn.classList.remove('visible');
+            }
+        }
+
+        function showStatus(message, type) {
+            statusDiv.className = `status ${type}`;
+            if (type === 'loading') {
+                statusDiv.innerHTML = `<span class="loading-spinner"></span>${message}`;
+            } else {
+                statusDiv.textContent = message;
+            }
+        }
+
         async function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -389,16 +490,13 @@
             });
         }
 
-        uploadForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
+        async function uploadImages() {
             if (!userPhoneNumber) {
                 showStatus('Phone number is missing', 'error');
                 return;
             }
 
             if (selectedFiles.length === 0) {
-                showStatus('Please select at least one image', 'error');
                 return;
             }
 
@@ -446,13 +544,14 @@
                 const result = await response.json();
                 console.log('Response:', result);
 
-                showStatus(`✓ Successfully uploaded ${selectedFiles.length} image(s) to your wardrobe!`, 'success');
+                showStatus('Your articles are uploaded to your wardrobe! In future updates, you would be able to view them here.', 'success');
                 
-                // Clear form
+                // Clear form after successful upload
                 selectedFiles = [];
                 previewContainer.innerHTML = '';
                 imageInput.value = '';
                 updateFileCount();
+                toggleUploadButton();
 
             } catch (error) {
                 console.error('Upload error:', error);
@@ -460,16 +559,10 @@
             } finally {
                 uploadBtn.disabled = false;
             }
-        });
-
-        function showStatus(message, type) {
-            statusDiv.className = `status ${type}`;
-            if (type === 'loading') {
-                statusDiv.innerHTML = `<span class="loading-spinner"></span>${message}`;
-            } else {
-                statusDiv.textContent = message;
-            }
         }
+
+        // Add click event listener to upload button
+        uploadBtn.addEventListener('click', uploadImages);
 
         // Make removeImage function globally accessible
         window.removeImage = removeImage;
