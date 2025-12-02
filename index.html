@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thredora - Upload to Wardrobe</title>
-    <meta name="description" content="Upload your clothing to your elegant digital wardrobe">
+    <title>Thredora - My Wardrobe</title>
+    <meta name="description" content="View and manage your elegant digital wardrobe">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
@@ -46,6 +46,13 @@
             font-weight: 700;
             text-align: center;
             color: #000;
+            margin-bottom: 1rem;
+        }
+
+        .subheading {
+            text-align: center;
+            color: #666;
+            font-size: 1rem;
             margin-bottom: 2rem;
         }
 
@@ -102,7 +109,96 @@
             margin-top: 0.75rem;
         }
 
-        /* Preview Grid */
+        /* Filter Section */
+        .filter-section {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1.25rem;
+            border: 1px solid #d4cfc4;
+            border-radius: 9999px;
+            background-color: white;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:hover {
+            border-color: #6A4EB6;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #6A4EB6;
+            box-shadow: 0 0 0 3px rgba(106, 78, 182, 0.1);
+        }
+
+        /* Wardrobe Grid */
+        .wardrobe-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .wardrobe-item {
+            position: relative;
+            aspect-ratio: 1;
+            background-color: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e8e4dc;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .wardrobe-item:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .wardrobe-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 1rem 0.75rem 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .wardrobe-item:hover .item-info {
+            opacity: 1;
+        }
+
+        .item-name {
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-category {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        /* Preview Grid (for new uploads) */
         .preview-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -250,6 +346,30 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
         /* Error Container */
         .error-container {
             max-width: 600px;
@@ -283,7 +403,11 @@
 
             .heading {
                 font-size: 3rem;
-                margin-bottom: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .subheading {
+                font-size: 1.125rem;
             }
 
             .upload-button {
@@ -297,6 +421,7 @@
                 height: 2rem;
             }
 
+            .wardrobe-grid,
             .preview-container {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 1.5rem;
@@ -318,6 +443,7 @@
                 font-size: 3.75rem;
             }
 
+            .wardrobe-grid,
             .preview-container {
                 grid-template-columns: repeat(6, 1fr);
             }
@@ -332,7 +458,8 @@
         </div>
 
         <!-- Heading -->
-        <h1 class="heading">Wardrobe</h1>
+        <h1 class="heading">My Wardrobe</h1>
+        <p class="subheading" id="itemCount">Loading your wardrobe...</p>
 
         <!-- Upload Section -->
         <div class="upload-section">
@@ -343,7 +470,7 @@
                         <polyline points="17 8 12 3 7 8"></polyline>
                         <line x1="12" y1="3" x2="12" y2="15"></line>
                     </svg>
-                    Upload Images
+                    Add New Items
                 </label>
                 <input 
                     type="file" 
@@ -356,8 +483,24 @@
             <div class="file-count" id="fileCount">No images selected</div>
         </div>
 
-        <!-- Preview Grid -->
+        <!-- Filter Section -->
+        <div class="filter-section" id="filterSection" style="display: none;">
+            <select id="categoryFilter" class="filter-select">
+                <option value="">All Categories</option>
+            </select>
+            <select id="usageFilter" class="filter-select">
+                <option value="">All Usage</option>
+            </select>
+            <select id="seasonFilter" class="filter-select">
+                <option value="">All Seasons</option>
+            </select>
+        </div>
+
+        <!-- Preview Grid (for new uploads) -->
         <div id="previewContainer" class="preview-container"></div>
+
+        <!-- Wardrobe Grid (existing items) -->
+        <div id="wardrobeGrid" class="wardrobe-grid"></div>
 
         <!-- Submit Button -->
         <div class="submit-container">
@@ -371,24 +514,35 @@
     </div>
 
     <script>
-        // Hardcoded webhook URL - change this to your n8n webhook URL
+        // Configuration - REPLACE THESE WITH YOUR VALUES
         const WEBHOOK_URL = 'https://n8n.thredora.com/webhook/de5f52d0-8d1a-4519-8065-c583a3490724';
+        const SUPABASE_URL = 'https://jexfxdnwnzjqedrekxwm.supabase.co'; // e.g., https://xxxxx.supabase.co
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpleGZ4ZG53bnpqcWVkcmVreHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5NTU5MjQsImV4cCI6MjA3NDUzMTkyNH0.i40E_9VYlE5s7W9V1KEEa2_qHifFEj2U_j3XRHBAazI';
 
+        // DOM Elements
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('previewContainer');
+        const wardrobeGrid = document.getElementById('wardrobeGrid');
         const uploadBtn = document.getElementById('uploadBtn');
         const statusDiv = document.getElementById('status');
         const fileCount = document.getElementById('fileCount');
+        const itemCount = document.getElementById('itemCount');
         const mainContainer = document.getElementById('mainContainer');
+        const filterSection = document.getElementById('filterSection');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const usageFilter = document.getElementById('usageFilter');
+        const seasonFilter = document.getElementById('seasonFilter');
 
+        // State
         let selectedFiles = [];
         let userPhoneNumber = null;
+        let wardrobeItems = [];
+        let filteredItems = [];
 
-        // Get phone number from UTM parameters
+        // Get phone number from URL parameters
         function getPhoneFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             
-            // Try different parameter names
             const phone = urlParams.get('phone') || 
                          urlParams.get('phoneNumber') || 
                          urlParams.get('mobile') || 
@@ -398,8 +552,141 @@
             return phone;
         }
 
-        // Initialize - get phone number from URL
-        function initialize() {
+        // Fetch wardrobe items from Supabase
+        async function fetchWardrobeItems() {
+            if (!userPhoneNumber) {
+                showError('Phone number not found in URL parameters.');
+                return;
+            }
+
+            try {
+                showStatus('Loading your wardrobe...', 'loading');
+
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/wardrobe_items?phone=eq.${encodeURIComponent(userPhoneNumber)}&is_active=eq.true&order=created_at.desc`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch wardrobe items: ${response.status}`);
+                }
+
+                wardrobeItems = await response.json();
+                filteredItems = [...wardrobeItems];
+                
+                displayWardrobeItems();
+                populateFilters();
+                updateItemCount();
+                
+                statusDiv.className = 'status';
+                statusDiv.style.display = 'none';
+
+            } catch (error) {
+                console.error('Error fetching wardrobe:', error);
+                showStatus(`Error loading wardrobe: ${error.message}`, 'error');
+            }
+        }
+
+        // Display wardrobe items
+        function displayWardrobeItems() {
+            wardrobeGrid.innerHTML = '';
+
+            if (filteredItems.length === 0) {
+                wardrobeGrid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-state-icon">👔</div>
+                        <h3>Your wardrobe is empty</h3>
+                        <p>Start by uploading some images of your clothing items above!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'wardrobe-item';
+                itemDiv.innerHTML = `
+                    <img src="${item.image_url}" alt="${item.item_name || 'Wardrobe item'}" loading="lazy">
+                    <div class="item-info">
+                        <div class="item-name">${item.item_name || item.article_type || 'Unknown Item'}</div>
+                        <div class="item-category">${[item.master_category, item.sub_category].filter(Boolean).join(' • ')}</div>
+                    </div>
+                `;
+                wardrobeGrid.appendChild(itemDiv);
+            });
+        }
+
+        // Populate filter dropdowns
+        function populateFilters() {
+            if (wardrobeItems.length === 0) {
+                filterSection.style.display = 'none';
+                return;
+            }
+
+            filterSection.style.display = 'flex';
+
+            // Get unique values
+            const categories = [...new Set(wardrobeItems.map(item => item.master_category).filter(Boolean))];
+            const usages = [...new Set(wardrobeItems.map(item => item.usage).filter(Boolean))];
+            const seasons = [...new Set(wardrobeItems.map(item => item.season).filter(Boolean))];
+
+            // Populate category filter
+            categoryFilter.innerHTML = '<option value="">All Categories</option>';
+            categories.sort().forEach(cat => {
+                categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
+            });
+
+            // Populate usage filter
+            usageFilter.innerHTML = '<option value="">All Usage</option>';
+            usages.sort().forEach(usage => {
+                usageFilter.innerHTML += `<option value="${usage}">${usage}</option>`;
+            });
+
+            // Populate season filter
+            seasonFilter.innerHTML = '<option value="">All Seasons</option>';
+            seasons.sort().forEach(season => {
+                seasonFilter.innerHTML += `<option value="${season}">${season}</option>`;
+            });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const category = categoryFilter.value;
+            const usage = usageFilter.value;
+            const season = seasonFilter.value;
+
+            filteredItems = wardrobeItems.filter(item => {
+                return (!category || item.master_category === category) &&
+                       (!usage || item.usage === usage) &&
+                       (!season || item.season === season);
+            });
+
+            displayWardrobeItems();
+            updateItemCount();
+        }
+
+        // Update item count
+        function updateItemCount() {
+            const total = wardrobeItems.length;
+            const filtered = filteredItems.length;
+
+            if (total === 0) {
+                itemCount.textContent = 'No items yet';
+            } else if (filtered === total) {
+                itemCount.textContent = `${total} ${total === 1 ? 'item' : 'items'} in your wardrobe`;
+            } else {
+                itemCount.textContent = `Showing ${filtered} of ${total} items`;
+            }
+        }
+
+        // Initialize
+        async function initialize() {
             userPhoneNumber = getPhoneFromURL();
             
             if (!userPhoneNumber) {
@@ -408,12 +695,19 @@
             }
             
             console.log('Phone number loaded:', userPhoneNumber);
+            await fetchWardrobeItems();
         }
 
         function showError(message) {
-            mainContainer.innerHTML = '';
+            mainContainer.innerHTML = `
+                <div class="error-container">
+                    <h2>Error</h2>
+                    <p>${message}</p>
+                </div>
+            `;
         }
 
+        // Handle file selection for new uploads
         imageInput.addEventListener('change', handleFileSelect);
 
         function handleFileSelect(e) {
@@ -421,7 +715,6 @@
             
             if (files.length === 0) return;
             
-            // Add files to selectedFiles array
             files.forEach(file => {
                 if (file.type.startsWith('image/')) {
                     selectedFiles.push(file);
@@ -504,7 +797,6 @@
             showStatus(`Processing ${selectedFiles.length} image(s)...`, 'loading');
 
             try {
-                // Convert all files to base64
                 const imagePromises = selectedFiles.map(async (file) => {
                     const base64Data = await fileToBase64(file);
                     return {
@@ -517,7 +809,6 @@
 
                 const images = await Promise.all(imagePromises);
 
-                // Prepare the payload
                 const payload = {
                     phoneNumber: userPhoneNumber,
                     images: images
@@ -528,7 +819,6 @@
                     imageCount: images.length
                 });
 
-                // Send to n8n webhook
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
@@ -544,25 +834,33 @@
                 const result = await response.json();
                 console.log('Response:', result);
 
-                showStatus('Your articles are uploaded to your wardrobe! In future updates, you would be able to view them here.', 'success');
+                showStatus('Items uploaded successfully! Refreshing your wardrobe...', 'success');
                 
-                // Clear form after successful upload
+                // Clear form
                 selectedFiles = [];
                 previewContainer.innerHTML = '';
                 imageInput.value = '';
                 updateFileCount();
                 toggleUploadButton();
 
+                // Reload wardrobe after short delay
+                setTimeout(() => {
+                    fetchWardrobeItems();
+                }, 2000);
+
             } catch (error) {
                 console.error('Upload error:', error);
-                showStatus(`✗ Upload failed: ${error.message}`, 'error');
+                showStatus(`Upload failed: ${error.message}`, 'error');
             } finally {
                 uploadBtn.disabled = false;
             }
         }
 
-        // Add click event listener to upload button
+        // Event listeners
         uploadBtn.addEventListener('click', uploadImages);
+        categoryFilter.addEventListener('change', applyFilters);
+        usageFilter.addEventListener('change', applyFilters);
+        seasonFilter.addEventListener('change', applyFilters);
 
         // Make removeImage function globally accessible
         window.removeImage = removeImage;
