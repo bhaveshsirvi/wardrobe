@@ -27,7 +27,6 @@
             padding: 1.5rem 1rem;
         }
 
-        /* Logo */
         .logo-container {
             display: flex;
             justify-content: center;
@@ -40,7 +39,6 @@
             object-fit: contain;
         }
 
-        /* Heading */
         .heading {
             font-size: 2.5rem;
             font-weight: 700;
@@ -56,7 +54,6 @@
             margin-bottom: 2rem;
         }
 
-        /* Upload Section */
         .upload-section {
             max-width: 600px;
             margin: 0 auto 3rem;
@@ -109,7 +106,6 @@
             margin-top: 0.75rem;
         }
 
-        /* Filter Section */
         .filter-section {
             max-width: 800px;
             margin: 0 auto 2rem;
@@ -140,7 +136,6 @@
             box-shadow: 0 0 0 3px rgba(106, 78, 182, 0.1);
         }
 
-        /* Wardrobe Grid */
         .wardrobe-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -198,7 +193,6 @@
             opacity: 0.9;
         }
 
-        /* Preview Grid (for new uploads) */
         .preview-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -253,7 +247,6 @@
             transform: scale(1.1);
         }
 
-        /* Submit Button */
         .submit-container {
             max-width: 500px;
             margin: 2rem auto 0;
@@ -297,7 +290,6 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Status Messages */
         .status {
             max-width: 600px;
             margin: 1.5rem auto 0;
@@ -346,7 +338,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
@@ -370,7 +361,6 @@
             line-height: 1.6;
         }
 
-        /* Error Container */
         .error-container {
             max-width: 600px;
             margin: 3rem auto;
@@ -391,7 +381,6 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Tablet */
         @media (min-width: 768px) {
             .container {
                 padding: 2.5rem 1.5rem;
@@ -433,7 +422,6 @@
             }
         }
 
-        /* Desktop */
         @media (min-width: 1024px) {
             .logo {
                 height: 7rem;
@@ -452,16 +440,13 @@
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <!-- Logo -->
         <div class="logo-container">
             <img src="https://customer-assets.emergentagent.com/job_dress-effortless/artifacts/p6w98td7_Header%20%281%29.png" alt="Thredora" class="logo">
         </div>
 
-        <!-- Heading -->
         <h1 class="heading">My Wardrobe</h1>
         <p class="subheading" id="itemCount">Loading your wardrobe...</p>
 
-        <!-- Upload Section -->
         <div class="upload-section">
             <div class="upload-container">
                 <label for="imageInput" class="upload-button">
@@ -483,7 +468,6 @@
             <div class="file-count" id="fileCount">No images selected</div>
         </div>
 
-        <!-- Filter Section -->
         <div class="filter-section" id="filterSection" style="display: none;">
             <select id="categoryFilter" class="filter-select">
                 <option value="">All Categories</option>
@@ -496,30 +480,24 @@
             </select>
         </div>
 
-        <!-- Preview Grid (for new uploads) -->
         <div id="previewContainer" class="preview-container"></div>
 
-        <!-- Wardrobe Grid (existing items) -->
         <div id="wardrobeGrid" class="wardrobe-grid"></div>
 
-        <!-- Submit Button -->
         <div class="submit-container">
             <button type="button" class="submit-button" id="uploadBtn">
                 Confirm Upload
             </button>
         </div>
 
-        <!-- Status Messages -->
         <div id="status" class="status"></div>
     </div>
 
     <script>
-        // Configuration - REPLACE THESE WITH YOUR VALUES
         const WEBHOOK_URL = 'https://n8n.thredora.com/webhook/de5f52d0-8d1a-4519-8065-c583a3490724';
-        const SUPABASE_URL = 'https://jexfxdnwnzjqedrekxwm.supabase.co'; // e.g., https://xxxxx.supabase.co
+        const SUPABASE_URL = 'https://jexfxdnwnzjqedrekxwm.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpleGZ4ZG53bnpqcWVkcmVreHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5NTU5MjQsImV4cCI6MjA3NDUzMTkyNH0.i40E_9VYlE5s7W9V1KEEa2_qHifFEj2U_j3XRHBAazI';
 
-        // DOM Elements
         const imageInput = document.getElementById('imageInput');
         const previewContainer = document.getElementById('previewContainer');
         const wardrobeGrid = document.getElementById('wardrobeGrid');
@@ -533,29 +511,51 @@
         const usageFilter = document.getElementById('usageFilter');
         const seasonFilter = document.getElementById('seasonFilter');
 
-        // State
         let selectedFiles = [];
+        let userId = null;
         let userPhoneNumber = null;
         let wardrobeItems = [];
         let filteredItems = [];
 
-        // Get phone number from URL parameters
-        function getPhoneFromURL() {
+        function getUserIdFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            
-            const phone = urlParams.get('phone') || 
-                         urlParams.get('phoneNumber') || 
-                         urlParams.get('mobile') || 
-                         urlParams.get('utm_phone') ||
-                         urlParams.get('number');
-            
-            return phone;
+            return urlParams.get('id') || urlParams.get('uuid') || urlParams.get('user_id');
         }
 
-        // Fetch wardrobe items from Supabase
+        async function fetchUserByUUID(uuid) {
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/onboarding?id=eq.${encodeURIComponent(uuid)}&select=phone`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch user: ${response.status}`);
+                }
+
+                const users = await response.json();
+                
+                if (users.length === 0) {
+                    throw new Error('User not found');
+                }
+
+                return users[0].phone;
+
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                throw error;
+            }
+        }
+
         async function fetchWardrobeItems() {
             if (!userPhoneNumber) {
-                showError('Phone number not found in URL parameters.');
+                showError('Phone number not found.');
                 return;
             }
 
@@ -593,7 +593,6 @@
             }
         }
 
-        // Display wardrobe items
         function displayWardrobeItems() {
             wardrobeGrid.innerHTML = '';
 
@@ -622,7 +621,6 @@
             });
         }
 
-        // Populate filter dropdowns
         function populateFilters() {
             if (wardrobeItems.length === 0) {
                 filterSection.style.display = 'none';
@@ -631,31 +629,26 @@
 
             filterSection.style.display = 'flex';
 
-            // Get unique values
             const categories = [...new Set(wardrobeItems.map(item => item.master_category).filter(Boolean))];
             const usages = [...new Set(wardrobeItems.map(item => item.usage).filter(Boolean))];
             const seasons = [...new Set(wardrobeItems.map(item => item.season).filter(Boolean))];
 
-            // Populate category filter
             categoryFilter.innerHTML = '<option value="">All Categories</option>';
             categories.sort().forEach(cat => {
                 categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
             });
 
-            // Populate usage filter
             usageFilter.innerHTML = '<option value="">All Usage</option>';
             usages.sort().forEach(usage => {
                 usageFilter.innerHTML += `<option value="${usage}">${usage}</option>`;
             });
 
-            // Populate season filter
             seasonFilter.innerHTML = '<option value="">All Seasons</option>';
             seasons.sort().forEach(season => {
                 seasonFilter.innerHTML += `<option value="${season}">${season}</option>`;
             });
         }
 
-        // Apply filters
         function applyFilters() {
             const category = categoryFilter.value;
             const usage = usageFilter.value;
@@ -671,7 +664,6 @@
             updateItemCount();
         }
 
-        // Update item count
         function updateItemCount() {
             const total = wardrobeItems.length;
             const filtered = filteredItems.length;
@@ -685,17 +677,24 @@
             }
         }
 
-        // Initialize
         async function initialize() {
-            userPhoneNumber = getPhoneFromURL();
+            userId = getUserIdFromURL();
             
-            if (!userPhoneNumber) {
-                showError('Phone number not found in URL parameters. Please access this page with a valid phone number.');
+            if (!userId) {
+                showError('User ID not found in URL parameters. Please access this page with a valid user ID (e.g., ?id=your-uuid)');
                 return;
             }
             
-            console.log('Phone number loaded:', userPhoneNumber);
-            await fetchWardrobeItems();
+            console.log('User ID loaded:', userId);
+
+            try {
+                showStatus('Authenticating...', 'loading');
+                userPhoneNumber = await fetchUserByUUID(userId);
+                console.log('Phone number retrieved:', userPhoneNumber);
+                await fetchWardrobeItems();
+            } catch (error) {
+                showError(`Authentication failed: ${error.message}`);
+            }
         }
 
         function showError(message) {
@@ -707,7 +706,6 @@
             `;
         }
 
-        // Handle file selection for new uploads
         imageInput.addEventListener('change', handleFileSelect);
 
         function handleFileSelect(e) {
@@ -836,14 +834,12 @@
 
                 showStatus('Items uploaded successfully! Refreshing your wardrobe...', 'success');
                 
-                // Clear form
                 selectedFiles = [];
                 previewContainer.innerHTML = '';
                 imageInput.value = '';
                 updateFileCount();
                 toggleUploadButton();
 
-                // Reload wardrobe after short delay
                 setTimeout(() => {
                     fetchWardrobeItems();
                 }, 2000);
@@ -856,16 +852,13 @@
             }
         }
 
-        // Event listeners
         uploadBtn.addEventListener('click', uploadImages);
         categoryFilter.addEventListener('change', applyFilters);
         usageFilter.addEventListener('change', applyFilters);
         seasonFilter.addEventListener('change', applyFilters);
 
-        // Make removeImage function globally accessible
         window.removeImage = removeImage;
 
-        // Initialize on page load
         initialize();
     </script>
 </body>
