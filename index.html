@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thredora - My Wardrobe</title>
-    <meta name="description" content="View and manage your elegant digital wardrobe">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
@@ -24,98 +23,96 @@
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 1.5rem 1rem;
+            padding: 2rem 1rem;
         }
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
 
         .logo {
             height: 5rem;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .heading {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            color: #000;
-            margin-bottom: 1rem;
-        }
-
-        .subheading {
-            text-align: center;
-            color: #666;
-            font-size: 1rem;
             margin-bottom: 2rem;
         }
 
-        .upload-section {
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 0.5rem;
         }
 
-        .upload-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1rem;
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
         }
 
-        .upload-button {
+        /* Upload Button */
+        .upload-btn {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
             background-color: #6A4EB6;
             color: white;
-            padding: 1.75rem 3rem;
+            padding: 1rem 2rem;
             border-radius: 9999px;
-            font-size: 1.25rem;
-            cursor: pointer;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
             border: none;
+            font-size: 1rem;
             font-family: 'Libre Baskerville', serif;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(106, 78, 182, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
         }
 
-        .upload-button:hover {
+        .upload-btn:hover {
             background-color: #5a3fa0;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(106, 78, 182, 0.4);
         }
 
-        .upload-icon {
-            width: 1.5rem;
-            height: 1.5rem;
-        }
-
-        .file-input {
+        /* Status Messages */
+        .status {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
             display: none;
         }
 
-        .file-count {
-            text-align: center;
-            color: #666;
-            font-size: 0.875rem;
-            margin-top: 0.75rem;
+        .status.show { display: block; }
+
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
 
-        .filter-section {
-            max-width: 800px;
-            margin: 0 auto 2rem;
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Filters */
+        .filters {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
             justify-content: center;
+            margin-bottom: 2rem;
         }
 
-        .filter-select {
+        .filters select {
             padding: 0.75rem 1.25rem;
             border: 1px solid #d4cfc4;
             border-radius: 9999px;
@@ -126,21 +123,15 @@
             transition: all 0.3s ease;
         }
 
-        .filter-select:hover {
+        .filters select:hover {
             border-color: #6A4EB6;
         }
 
-        .filter-select:focus {
-            outline: none;
-            border-color: #6A4EB6;
-            box-shadow: 0 0 0 3px rgba(106, 78, 182, 0.1);
-        }
-
+        /* Wardrobe Grid */
         .wardrobe-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
         }
 
         .wardrobe-item {
@@ -149,15 +140,15 @@
             background-color: white;
             border-radius: 0.5rem;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             border: 1px solid #e8e4dc;
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .wardrobe-item:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
         }
 
         .wardrobe-item img {
@@ -173,7 +164,7 @@
             right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
             color: white;
-            padding: 1rem 0.75rem 0.75rem;
+            padding: 2rem 1rem 1rem;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -193,155 +184,11 @@
             opacity: 0.9;
         }
 
-        .preview-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-        }
-
-        .preview-item {
-            position: relative;
-            aspect-ratio: 1;
-            background-color: white;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e8e4dc;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .preview-item:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .remove-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: white;
-            color: #721c24;
-            border: none;
-            border-radius: 50%;
-            width: 2rem;
-            height: 2rem;
-            cursor: pointer;
-            font-size: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            font-weight: 700;
-        }
-
-        .remove-btn:hover {
-            background-color: #721c24;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .submit-container {
-            max-width: 500px;
-            margin: 2rem auto 0;
-            text-align: center;
-        }
-
-        .submit-button {
-            display: inline-block;
-            padding: 1.25rem 2.5rem;
-            background-color: #6A4EB6;
-            color: white;
-            border: none;
-            border-radius: 9999px;
-            font-size: 1.125rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            font-family: 'Libre Baskerville', serif;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-        }
-
-        .submit-button.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .submit-button:hover:not(:disabled) {
-            background-color: #5a3fa0;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .submit-button:disabled {
-            background-color: #d4cfc4;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .status {
-            max-width: 600px;
-            margin: 1.5rem auto 0;
-            padding: 1.25rem 1.5rem;
-            border-radius: 0.5rem;
-            display: none;
-            font-size: 0.95rem;
-            text-align: center;
-            line-height: 1.6;
-        }
-
-        .status.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-        }
-
-        .status.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-
-        .status.loading {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-            display: block;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 1rem;
-            height: 1rem;
-            border: 2px solid rgba(12, 84, 96, 0.3);
-            border-radius: 50%;
-            border-top-color: #0c5460;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 0.5rem;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
+        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            color: #666;
+            grid-column: 1 / -1;
         }
 
         .empty-state-icon {
@@ -356,423 +203,499 @@
             color: #333;
         }
 
-        .empty-state p {
-            font-size: 1rem;
-            line-height: 1.6;
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
         }
 
-        .error-container {
-            max-width: 600px;
-            margin: 3rem auto;
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #f8f6f3;
+            border-radius: 1rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
             padding: 2rem;
-            border-radius: 0.5rem;
-            text-align: center;
+            border-bottom: 1px solid #e8e4dc;
         }
 
-        .error-container h2 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .error-container p {
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
+        .modal-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px solid #e8e4dc;
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fafaf9 0%, #f5f3f0 100%);
+        }
+
+        .upload-area:hover {
+            border-color: #6A4EB6;
+            background: linear-gradient(135deg, #ffffff 0%, #fafaf9 100%);
+            box-shadow: 0 8px 20px rgba(106, 78, 182, 0.15);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .upload-text {
+            font-size: 1.05rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .upload-hint {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-count {
+            text-align: center;
+            color: #6A4EB6;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Preview Grid */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8e4dc;
+            transition: all 0.3s ease;
+        }
+
+        .preview-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #dc3545;
+            border: none;
+            border-radius: 50%;
+            width: 2.25rem;
+            height: 2.25rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+            opacity: 0;
+        }
+
+        .preview-item:hover .remove-btn {
+            opacity: 1;
+        }
+
+        .remove-btn:hover {
+            background-color: #dc3545;
+            color: white;
+            transform: scale(1.15);
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 1rem 2rem 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-family: 'Libre Baskerville', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #333;
+            border: 1px solid #d4cfc4;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-primary {
+            background-color: #6A4EB6;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(106, 78, 182, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: #5a3fa0;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background-color: #c4b8de;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Responsive */
         @media (min-width: 768px) {
-            .container {
-                padding: 2.5rem 1.5rem;
-            }
-
-            .logo {
-                height: 6rem;
-            }
-
-            .heading {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-            }
-
-            .subheading {
-                font-size: 1.125rem;
-            }
-
-            .upload-button {
-                padding: 2rem 3.5rem;
-                font-size: 1.5rem;
-                gap: 1rem;
-            }
-
-            .upload-icon {
-                width: 2rem;
-                height: 2rem;
-            }
-
-            .wardrobe-grid,
-            .preview-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
-            }
-
-            .submit-button {
-                font-size: 1.25rem;
-                padding: 1.5rem 3rem;
-            }
+            .logo { height: 6rem; }
+            .title { font-size: 3rem; }
+            .wardrobe-grid { grid-template-columns: repeat(3, 1fr); }
+            .preview-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (min-width: 1024px) {
-            .logo {
-                height: 7rem;
-            }
-
-            .heading {
-                font-size: 3.75rem;
-            }
-
-            .wardrobe-grid,
-            .preview-container {
-                grid-template-columns: repeat(6, 1fr);
-            }
+            .logo { height: 7rem; }
+            .title { font-size: 3.75rem; }
+            .wardrobe-grid { grid-template-columns: repeat(6, 1fr); }
+            .preview-grid { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="mainContainer">
-        <div class="logo-container">
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
             <img src="https://customer-assets.emergentagent.com/job_dress-effortless/artifacts/p6w98td7_Header%20%281%29.png" alt="Thredora" class="logo">
+            <h1 class="title">My Wardrobe</h1>
+            <p class="subtitle" id="itemCount">Loading...</p>
         </div>
 
-        <h1 class="heading">My Wardrobe</h1>
-        <p class="subheading" id="itemCount">Loading your wardrobe...</p>
-
-        <div class="upload-section">
-            <div class="upload-container">
-                <label for="imageInput" class="upload-button">
-                    <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                    </svg>
-                    Add New Items
-                </label>
-                <input 
-                    type="file" 
-                    id="imageInput" 
-                    accept="image/*" 
-                    multiple
-                    class="file-input"
-                >
-            </div>
-            <div class="file-count" id="fileCount">No images selected</div>
+        <!-- Upload Button -->
+        <div style="text-align: center;">
+            <button class="upload-btn" id="uploadTriggerBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Add New Items
+            </button>
         </div>
 
-        <div class="filter-section" id="filterSection" style="display: none;">
-            <select id="categoryFilter" class="filter-select">
+        <!-- Status -->
+        <div id="status" class="status"></div>
+
+        <!-- Filters -->
+        <div class="filters" id="filters" style="display: none;">
+            <select id="categoryFilter">
                 <option value="">All Categories</option>
             </select>
-            <select id="usageFilter" class="filter-select">
+            <select id="usageFilter">
                 <option value="">All Usage</option>
             </select>
-            <select id="seasonFilter" class="filter-select">
+            <select id="seasonFilter">
                 <option value="">All Seasons</option>
             </select>
         </div>
 
-        <div id="previewContainer" class="preview-container"></div>
+        <!-- Wardrobe Grid -->
+        <div class="wardrobe-grid" id="wardrobeGrid"></div>
+    </div>
 
-        <div id="wardrobeGrid" class="wardrobe-grid"></div>
-
-        <div class="submit-container">
-            <button type="button" class="submit-button" id="uploadBtn">
-                Confirm Upload
-            </button>
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Items</h2>
+                <p class="modal-subtitle">Upload photos of your clothing items</p>
+            </div>
+            <div class="modal-body">
+                <label for="fileInput" class="upload-area">
+                    <div class="upload-icon">📸</div>
+                    <div class="upload-text">Click to select images</div>
+                    <div class="upload-hint">or drag and drop here</div>
+                </label>
+                <input type="file" id="fileInput" class="file-input" accept="image/*" multiple>
+                
+                <div class="file-count" id="fileCount">No images selected</div>
+                <div id="modalStatus" class="status"></div>
+                <div class="preview-grid" id="previewGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="uploadBtn" disabled>Upload Items</button>
+            </div>
         </div>
-
-        <div id="status" class="status"></div>
     </div>
 
     <script>
-        const WEBHOOK_URL = 'https://n8n.thredora.com/webhook/de5f52d0-8d1a-4519-8065-c583a3490724';
-        const SUPABASE_URL = 'https://jexfxdnwnzjqedrekxwm.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpleGZ4ZG53bnpqcWVkcmVreHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5NTU5MjQsImV4cCI6MjA3NDUzMTkyNH0.i40E_9VYlE5s7W9V1KEEa2_qHifFEj2U_j3XRHBAazI';
+        // Configuration
+        const CONFIG = {
+            webhookUrl: 'https://n8n.thredora.com/webhook/de5f52d0-8d1a-4519-8065-c583a3490724',
+            supabaseUrl: 'https://jexfxdnwnzjqedrekxwm.supabase.co',
+            supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpleGZ4ZG53bnpqcWVkcmVreHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5NTU5MjQsImV4cCI6MjA3NDUzMTkyNH0.i40E_9VYlE5s7W9V1KEEa2_qHifFEj2U_j3XRHBAazI'
+        };
 
-        const imageInput = document.getElementById('imageInput');
-        const previewContainer = document.getElementById('previewContainer');
-        const wardrobeGrid = document.getElementById('wardrobeGrid');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const statusDiv = document.getElementById('status');
-        const fileCount = document.getElementById('fileCount');
-        const itemCount = document.getElementById('itemCount');
-        const mainContainer = document.getElementById('mainContainer');
-        const filterSection = document.getElementById('filterSection');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const usageFilter = document.getElementById('usageFilter');
-        const seasonFilter = document.getElementById('seasonFilter');
+        // State
+        const state = {
+            userId: null,
+            userPhone: null,
+            files: [],
+            wardrobeItems: [],
+            filteredItems: []
+        };
 
-        let selectedFiles = [];
-        let userId = null;
-        let userPhoneNumber = null;
-        let wardrobeItems = [];
-        let filteredItems = [];
+        // DOM Elements
+        const elements = {
+            uploadTriggerBtn: document.getElementById('uploadTriggerBtn'),
+            uploadModal: document.getElementById('uploadModal'),
+            cancelBtn: document.getElementById('cancelBtn'),
+            fileInput: document.getElementById('fileInput'),
+            fileCount: document.getElementById('fileCount'),
+            previewGrid: document.getElementById('previewGrid'),
+            uploadBtn: document.getElementById('uploadBtn'),
+            status: document.getElementById('status'),
+            modalStatus: document.getElementById('modalStatus'),
+            itemCount: document.getElementById('itemCount'),
+            wardrobeGrid: document.getElementById('wardrobeGrid'),
+            filters: document.getElementById('filters'),
+            categoryFilter: document.getElementById('categoryFilter'),
+            usageFilter: document.getElementById('usageFilter'),
+            seasonFilter: document.getElementById('seasonFilter')
+        };
 
-        function getUserIdFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('id') || urlParams.get('uuid') || urlParams.get('user_id');
+        // Utility Functions
+        function showStatus(message, type, isModal = false) {
+            const el = isModal ? elements.modalStatus : elements.status;
+            el.textContent = message;
+            el.className = `status ${type} show`;
         }
 
-        async function fetchUserByUUID(uuid) {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/onboarding?id=eq.${encodeURIComponent(uuid)}&select=phone`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_ANON_KEY,
-                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                            'Content-Type': 'application/json'
-                        }
+        function hideStatus(isModal = false) {
+            const el = isModal ? elements.modalStatus : elements.status;
+            el.className = 'status';
+        }
+
+        function getUserId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id') || params.get('uuid') || params.get('user_id');
+        }
+
+        async function fetchUserPhone(userId) {
+            const response = await fetch(
+                `${CONFIG.supabaseUrl}/rest/v1/onboarding?id=eq.${userId}&select=phone`,
+                {
+                    headers: {
+                        'apikey': CONFIG.supabaseKey,
+                        'Authorization': `Bearer ${CONFIG.supabaseKey}`
                     }
-                );
-
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch user: ${response.status}`);
                 }
+            );
 
-                const users = await response.json();
-                
-                if (users.length === 0) {
-                    throw new Error('User not found');
-                }
-
-                return users[0].phone;
-
-            } catch (error) {
-                console.error('Error fetching user:', error);
-                throw error;
-            }
+            if (!response.ok) throw new Error('Failed to fetch user');
+            
+            const users = await response.json();
+            if (users.length === 0) throw new Error('User not found');
+            
+            return users[0].phone;
         }
 
-        async function fetchWardrobeItems() {
-            if (!userPhoneNumber) {
-                showError('Phone number not found.');
-                return;
-            }
-
-            try {
-                showStatus('Loading your wardrobe...', 'loading');
-
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/wardrobe_items?phone=eq.${encodeURIComponent(userPhoneNumber)}&is_active=eq.true&order=created_at.desc`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_ANON_KEY,
-                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                            'Content-Type': 'application/json'
-                        }
+        async function fetchWardrobe() {
+            const response = await fetch(
+                `${CONFIG.supabaseUrl}/rest/v1/wardrobe_items?phone=eq.${state.userPhone}&is_active=eq.true&order=created_at.desc`,
+                {
+                    headers: {
+                        'apikey': CONFIG.supabaseKey,
+                        'Authorization': `Bearer ${CONFIG.supabaseKey}`
                     }
-                );
-
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch wardrobe items: ${response.status}`);
                 }
+            );
 
-                wardrobeItems = await response.json();
-                filteredItems = [...wardrobeItems];
-                
-                displayWardrobeItems();
-                populateFilters();
-                updateItemCount();
-                
-                statusDiv.className = 'status';
-                statusDiv.style.display = 'none';
-
-            } catch (error) {
-                console.error('Error fetching wardrobe:', error);
-                showStatus(`Error loading wardrobe: ${error.message}`, 'error');
-            }
-        }
-
-        function displayWardrobeItems() {
-            wardrobeGrid.innerHTML = '';
-
-            if (filteredItems.length === 0) {
-                wardrobeGrid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1 / -1;">
-                        <div class="empty-state-icon">👔</div>
-                        <h3>Your wardrobe is empty</h3>
-                        <p>Start by uploading some images of your clothing items above!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            filteredItems.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'wardrobe-item';
-                itemDiv.innerHTML = `
-                    <img src="${item.image_url}" alt="${item.item_name || 'Wardrobe item'}" loading="lazy">
-                    <div class="item-info">
-                        <div class="item-name">${item.item_name || item.article_type || 'Unknown Item'}</div>
-                        <div class="item-category">${[item.master_category, item.sub_category].filter(Boolean).join(' • ')}</div>
-                    </div>
-                `;
-                wardrobeGrid.appendChild(itemDiv);
-            });
-        }
-
-        function populateFilters() {
-            if (wardrobeItems.length === 0) {
-                filterSection.style.display = 'none';
-                return;
-            }
-
-            filterSection.style.display = 'flex';
-
-            const categories = [...new Set(wardrobeItems.map(item => item.master_category).filter(Boolean))];
-            const usages = [...new Set(wardrobeItems.map(item => item.usage).filter(Boolean))];
-            const seasons = [...new Set(wardrobeItems.map(item => item.season).filter(Boolean))];
-
-            categoryFilter.innerHTML = '<option value="">All Categories</option>';
-            categories.sort().forEach(cat => {
-                categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
-            });
-
-            usageFilter.innerHTML = '<option value="">All Usage</option>';
-            usages.sort().forEach(usage => {
-                usageFilter.innerHTML += `<option value="${usage}">${usage}</option>`;
-            });
-
-            seasonFilter.innerHTML = '<option value="">All Seasons</option>';
-            seasons.sort().forEach(season => {
-                seasonFilter.innerHTML += `<option value="${season}">${season}</option>`;
-            });
-        }
-
-        function applyFilters() {
-            const category = categoryFilter.value;
-            const usage = usageFilter.value;
-            const season = seasonFilter.value;
-
-            filteredItems = wardrobeItems.filter(item => {
-                return (!category || item.master_category === category) &&
-                       (!usage || item.usage === usage) &&
-                       (!season || item.season === season);
-            });
-
-            displayWardrobeItems();
-            updateItemCount();
-        }
-
-        function updateItemCount() {
-            const total = wardrobeItems.length;
-            const filtered = filteredItems.length;
-
-            if (total === 0) {
-                itemCount.textContent = 'No items yet';
-            } else if (filtered === total) {
-                itemCount.textContent = `${total} ${total === 1 ? 'item' : 'items'} in your wardrobe`;
-            } else {
-                itemCount.textContent = `Showing ${filtered} of ${total} items`;
-            }
-        }
-
-        async function initialize() {
-            userId = getUserIdFromURL();
+            if (!response.ok) throw new Error('Failed to fetch wardrobe');
             
-            if (!userId) {
-                showError('User ID not found in URL parameters. Please access this page with a valid user ID (e.g., ?id=your-uuid)');
-                return;
-            }
-            
-            console.log('User ID loaded:', userId);
-
-            try {
-                showStatus('Authenticating...', 'loading');
-                userPhoneNumber = await fetchUserByUUID(userId);
-                console.log('Phone number retrieved:', userPhoneNumber);
-                await fetchWardrobeItems();
-            } catch (error) {
-                showError(`Authentication failed: ${error.message}`);
-            }
+            state.wardrobeItems = await response.json();
+            state.filteredItems = [...state.wardrobeItems];
         }
 
-        function showError(message) {
-            mainContainer.innerHTML = `
-                <div class="error-container">
-                    <h2>Error</h2>
-                    <p>${message}</p>
-                </div>
-            `;
+        // Modal Functions
+        function openModal() {
+            elements.uploadModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
-        imageInput.addEventListener('change', handleFileSelect);
+        function closeModal() {
+            elements.uploadModal.classList.remove('show');
+            document.body.style.overflow = '';
+            resetModal();
+        }
 
+        function resetModal() {
+            state.files = [];
+            elements.previewGrid.innerHTML = '';
+            elements.fileInput.value = '';
+            updateFileCount();
+            hideStatus(true);
+        }
+
+        // File Handling
         function handleFileSelect(e) {
-            const files = Array.from(e.target.files);
-            
-            if (files.length === 0) return;
-            
-            files.forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    selectedFiles.push(file);
-                    displayPreview(file);
-                }
-            });
+            const newFiles = Array.from(e.target.files).filter(f => f.type.startsWith('image/'));
+            state.files.push(...newFiles);
+            renderPreviews();
             updateFileCount();
-            toggleUploadButton();
         }
 
-        function displayPreview(file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const previewItem = document.createElement('div');
-                previewItem.className = 'preview-item';
-                previewItem.innerHTML = `
-                    <img src="${e.target.result}" alt="Preview">
-                    <button type="button" class="remove-btn" onclick="removeImage('${file.name}')">×</button>
-                `;
-                previewContainer.appendChild(previewItem);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removeImage(fileName) {
-            selectedFiles = selectedFiles.filter(f => f.name !== fileName);
-            updatePreviewContainer();
+        function removeFile(index) {
+            state.files.splice(index, 1);
+            renderPreviews();
             updateFileCount();
-            toggleUploadButton();
-        }
-
-        function updatePreviewContainer() {
-            previewContainer.innerHTML = '';
-            selectedFiles.forEach(file => displayPreview(file));
         }
 
         function updateFileCount() {
-            const count = selectedFiles.length;
-            fileCount.textContent = count === 0 ? 'No images selected' : 
+            const count = state.files.length;
+            elements.fileCount.textContent = count === 0 ? 'No images selected' : 
                 count === 1 ? '1 image selected' : `${count} images selected`;
+            elements.uploadBtn.disabled = count === 0;
         }
 
-        function toggleUploadButton() {
-            if (selectedFiles.length > 0) {
-                uploadBtn.classList.add('visible');
-            } else {
-                uploadBtn.classList.remove('visible');
+        function renderPreviews() {
+            elements.previewGrid.innerHTML = '';
+            state.files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button class="remove-btn" onclick="removeFile(${index})">×</button>
+                    `;
+                    elements.previewGrid.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Upload Function
+        async function uploadFiles() {
+            if (state.files.length === 0) return;
+
+            elements.uploadBtn.disabled = true;
+            elements.cancelBtn.disabled = true;
+            showStatus(`Uploading ${state.files.length} image(s)...`, 'loading', true);
+
+            try {
+                const images = await Promise.all(
+                    state.files.map(async (file) => ({
+                        fileName: file.name,
+                        fileType: file.type,
+                        fileSize: file.size,
+                        imageData: await fileToBase64(file)
+                    }))
+                );
+
+                const response = await fetch(CONFIG.webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phoneNumber: state.userPhone,
+                        images: images
+                    })
+                });
+
+                if (!response.ok) throw new Error('Upload failed');
+
+                showStatus('Upload successful!', 'success', true);
+                showStatus('Items uploaded! Processing...', 'success');
+                
+                setTimeout(closeModal, 2000);
+                setTimeout(() => {
+                    fetchWardrobe().then(renderWardrobe);
+                }, 3000);
+
+            } catch (error) {
+                showStatus(`Upload failed: ${error.message}`, 'error', true);
+            } finally {
+                elements.uploadBtn.disabled = false;
+                elements.cancelBtn.disabled = false;
             }
         }
 
-        function showStatus(message, type) {
-            statusDiv.className = `status ${type}`;
-            if (type === 'loading') {
-                statusDiv.innerHTML = `<span class="loading-spinner"></span>${message}`;
-            } else {
-                statusDiv.textContent = message;
-            }
-        }
-
-        async function fileToBase64(file) {
+        function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => resolve(reader.result);
@@ -781,85 +704,121 @@
             });
         }
 
-        async function uploadImages() {
-            if (!userPhoneNumber) {
-                showStatus('Phone number is missing', 'error');
+        // Wardrobe Rendering
+        function renderWardrobe() {
+            elements.wardrobeGrid.innerHTML = '';
+
+            if (state.filteredItems.length === 0) {
+                elements.wardrobeGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👔</div>
+                        <h3>Your wardrobe is empty</h3>
+                        <p>Click "Add New Items" to get started!</p>
+                    </div>
+                `;
+                updateItemCount();
                 return;
             }
 
-            if (selectedFiles.length === 0) {
+            state.filteredItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'wardrobe-item';
+                div.innerHTML = `
+                    <img src="${item.image_url}" alt="${item.item_name || 'Item'}" loading="lazy">
+                    <div class="item-info">
+                        <div class="item-name">${item.item_name || item.article_type || 'Unknown'}</div>
+                        <div class="item-category">${[item.master_category, item.sub_category].filter(Boolean).join(' • ')}</div>
+                    </div>
+                `;
+                elements.wardrobeGrid.appendChild(div);
+            });
+
+            populateFilters();
+            updateItemCount();
+        }
+
+        function populateFilters() {
+            if (state.wardrobeItems.length === 0) {
+                elements.filters.style.display = 'none';
                 return;
             }
 
-            uploadBtn.disabled = true;
-            showStatus(`Processing ${selectedFiles.length} image(s)...`, 'loading');
+            elements.filters.style.display = 'flex';
 
-            try {
-                const imagePromises = selectedFiles.map(async (file) => {
-                    const base64Data = await fileToBase64(file);
-                    return {
-                        fileName: file.name,
-                        fileType: file.type,
-                        fileSize: file.size,
-                        imageData: base64Data
-                    };
-                });
+            const categories = [...new Set(state.wardrobeItems.map(i => i.master_category).filter(Boolean))];
+            const usages = [...new Set(state.wardrobeItems.map(i => i.usage).filter(Boolean))];
+            const seasons = [...new Set(state.wardrobeItems.map(i => i.season).filter(Boolean))];
 
-                const images = await Promise.all(imagePromises);
+            elements.categoryFilter.innerHTML = '<option value="">All Categories</option>' +
+                categories.sort().map(c => `<option value="${c}">${c}</option>`).join('');
+            
+            elements.usageFilter.innerHTML = '<option value="">All Usage</option>' +
+                usages.sort().map(u => `<option value="${u}">${u}</option>`).join('');
+            
+            elements.seasonFilter.innerHTML = '<option value="">All Seasons</option>' +
+                seasons.sort().map(s => `<option value="${s}">${s}</option>`).join('');
+        }
 
-                const payload = {
-                    phoneNumber: userPhoneNumber,
-                    images: images
-                };
+        function applyFilters() {
+            const category = elements.categoryFilter.value;
+            const usage = elements.usageFilter.value;
+            const season = elements.seasonFilter.value;
 
-                console.log('Sending payload:', {
-                    phoneNumber: payload.phoneNumber,
-                    imageCount: images.length
-                });
+            state.filteredItems = state.wardrobeItems.filter(item => 
+                (!category || item.master_category === category) &&
+                (!usage || item.usage === usage) &&
+                (!season || item.season === season)
+            );
 
-                const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload)
-                });
+            renderWardrobe();
+        }
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+        function updateItemCount() {
+            const total = state.wardrobeItems.length;
+            const filtered = state.filteredItems.length;
 
-                const result = await response.json();
-                console.log('Response:', result);
-
-                showStatus('Items uploaded successfully! Refreshing your wardrobe...', 'success');
-                
-                selectedFiles = [];
-                previewContainer.innerHTML = '';
-                imageInput.value = '';
-                updateFileCount();
-                toggleUploadButton();
-
-                setTimeout(() => {
-                    fetchWardrobeItems();
-                }, 2000);
-
-            } catch (error) {
-                console.error('Upload error:', error);
-                showStatus(`Upload failed: ${error.message}`, 'error');
-            } finally {
-                uploadBtn.disabled = false;
+            if (total === 0) {
+                elements.itemCount.textContent = 'No items yet';
+            } else if (filtered === total) {
+                elements.itemCount.textContent = `${total} ${total === 1 ? 'item' : 'items'}`;
+            } else {
+                elements.itemCount.textContent = `Showing ${filtered} of ${total} items`;
             }
         }
 
-        uploadBtn.addEventListener('click', uploadImages);
-        categoryFilter.addEventListener('change', applyFilters);
-        usageFilter.addEventListener('change', applyFilters);
-        seasonFilter.addEventListener('change', applyFilters);
+        // Event Listeners
+        elements.uploadTriggerBtn.addEventListener('click', openModal);
+        elements.cancelBtn.addEventListener('click', closeModal);
+        elements.uploadModal.addEventListener('click', (e) => {
+            if (e.target === elements.uploadModal) closeModal();
+        });
+        elements.fileInput.addEventListener('change', handleFileSelect);
+        elements.uploadBtn.addEventListener('click', uploadFiles);
+        elements.categoryFilter.addEventListener('change', applyFilters);
+        elements.usageFilter.addEventListener('change', applyFilters);
+        elements.seasonFilter.addEventListener('change', applyFilters);
 
-        window.removeImage = removeImage;
+        // Make removeFile global for onclick
+        window.removeFile = removeFile;
 
-        initialize();
+        // Initialize
+        (async function init() {
+            try {
+                state.userId = getUserId();
+                if (!state.userId) {
+                    throw new Error('User ID not found in URL');
+                }
+
+                showStatus('Loading...', 'loading');
+                state.userPhone = await fetchUserPhone(state.userId);
+                await fetchWardrobe();
+                renderWardrobe();
+                hideStatus();
+
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        })();
     </script>
 </body>
 </html>
