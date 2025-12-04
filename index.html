@@ -113,7 +113,7 @@
         }
 
         .filters select {
-            padding: 0.75rem 1.25rem;
+            padding: 0.75rem 2.5rem 0.75rem 1.25rem;
             border: 1px solid #d4cfc4;
             border-radius: 9999px;
             background-color: white;
@@ -121,10 +121,21 @@
             font-size: 0.875rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            min-width: 140px;
         }
 
         .filters select:hover {
             border-color: #6A4EB6;
+        }
+
+        .filters select:focus {
+            outline: none;
+            border-color: #6A4EB6;
+            box-shadow: 0 0 0 3px rgba(106, 78, 182, 0.1);
         }
 
         /* Wardrobe Grid */
@@ -462,14 +473,14 @@
 
         <!-- Filters -->
         <div class="filters" id="filters" style="display: none;">
-            <select id="categoryFilter">
-                <option value="">All Categories</option>
+            <select id="articleTypeFilter">
+                <option value="">Article Type</option>
             </select>
             <select id="usageFilter">
-                <option value="">All Usage</option>
+                <option value="">Usage</option>
             </select>
             <select id="seasonFilter">
-                <option value="">All Seasons</option>
+                <option value="">Season</option>
             </select>
         </div>
 
@@ -534,7 +545,7 @@
             itemCount: document.getElementById('itemCount'),
             wardrobeGrid: document.getElementById('wardrobeGrid'),
             filters: document.getElementById('filters'),
-            categoryFilter: document.getElementById('categoryFilter'),
+            articleTypeFilter: document.getElementById('articleTypeFilter'),
             usageFilter: document.getElementById('usageFilter'),
             seasonFilter: document.getElementById('seasonFilter')
         };
@@ -745,27 +756,44 @@
 
             elements.filters.style.display = 'flex';
 
-            const categories = [...new Set(state.wardrobeItems.map(i => i.master_category).filter(Boolean))];
+            const articleTypes = [...new Set(state.wardrobeItems.map(i => i.article_type).filter(Boolean))];
             const usages = [...new Set(state.wardrobeItems.map(i => i.usage).filter(Boolean))];
             const seasons = [...new Set(state.wardrobeItems.map(i => i.season).filter(Boolean))];
 
-            elements.categoryFilter.innerHTML = '<option value="">All Categories</option>' +
-                categories.sort().map(c => `<option value="${c}">${c}</option>`).join('');
+            // Store current selections
+            const currentArticleType = elements.articleTypeFilter.value;
+            const currentUsage = elements.usageFilter.value;
+            const currentSeason = elements.seasonFilter.value;
+
+            // Rebuild dropdowns
+            elements.articleTypeFilter.innerHTML = '<option value="">Article Type</option>' +
+                articleTypes.sort().map(type => `<option value="${type}">${type}</option>`).join('');
             
-            elements.usageFilter.innerHTML = '<option value="">All Usage</option>' +
+            elements.usageFilter.innerHTML = '<option value="">Usage</option>' +
                 usages.sort().map(u => `<option value="${u}">${u}</option>`).join('');
             
-            elements.seasonFilter.innerHTML = '<option value="">All Seasons</option>' +
+            elements.seasonFilter.innerHTML = '<option value="">Season</option>' +
                 seasons.sort().map(s => `<option value="${s}">${s}</option>`).join('');
+
+            // Restore selections if they still exist in the new options
+            if (articleTypes.includes(currentArticleType)) {
+                elements.articleTypeFilter.value = currentArticleType;
+            }
+            if (usages.includes(currentUsage)) {
+                elements.usageFilter.value = currentUsage;
+            }
+            if (seasons.includes(currentSeason)) {
+                elements.seasonFilter.value = currentSeason;
+            }
         }
 
         function applyFilters() {
-            const category = elements.categoryFilter.value;
+            const articleType = elements.articleTypeFilter.value;
             const usage = elements.usageFilter.value;
             const season = elements.seasonFilter.value;
 
             state.filteredItems = state.wardrobeItems.filter(item => 
-                (!category || item.master_category === category) &&
+                (!articleType || item.article_type === articleType) &&
                 (!usage || item.usage === usage) &&
                 (!season || item.season === season)
             );
@@ -794,7 +822,7 @@
         });
         elements.fileInput.addEventListener('change', handleFileSelect);
         elements.uploadBtn.addEventListener('click', uploadFiles);
-        elements.categoryFilter.addEventListener('change', applyFilters);
+        elements.articleTypeFilter.addEventListener('change', applyFilters);
         elements.usageFilter.addEventListener('change', applyFilters);
         elements.seasonFilter.addEventListener('change', applyFilters);
 
